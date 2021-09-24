@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState,useEffect} from 'react';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -37,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
   },
   blogsContainer: {
     paddingTop: theme.spacing(3),
-    display:"inline-block",
+    display:"flex",
+    justifyContent:"flex-start",
+    flexWrap: 'wrap'
+    
+    
     
   },
   blogTitle: {
@@ -45,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3)
   },
   card: {
-    maxWidth: "100%",
+    width: "300px",
+    height: "400px",
+    marginRight : "25px",
+    marginBottom : "25px"
     
   },
   media: {
@@ -61,6 +68,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function BlogCard() {
+  
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+
+    setCurrentDate(
+      date + '/' + month + '/' + year 
+    );
+  }, []);
 
   const {data} = useContext(BlogContext)
 
@@ -102,7 +121,7 @@ function BlogCard() {
                             Esat Yasar
                           </Typography>
                           <Typography variant="subtitle2" color="textSecondary" component="p">
-                            May 14, 2020
+                            {currentDate}
                           </Typography>
                         </Box>
                       </Box>
