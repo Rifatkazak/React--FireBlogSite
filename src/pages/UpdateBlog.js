@@ -50,9 +50,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BlogForm() {
   
+   
   const classes = useStyles();
-  const {update, setUpdate, updateHandler} = useContext(BlogContext)
+  const {details, setDetails, data, setData} = useContext(BlogContext)
 
+  const detailsHandler = () =>{
+      
+    const newUpdate = data.filter ((item) =>{
+        return setDetails(prevDetails => details)
+    })
+    setData([...data, details])
+  } 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -73,10 +81,10 @@ export default function BlogForm() {
                 id="title"
                 label="Title"
                 name="title"
-                value={update.title}
+                value={details.title}
                 autoFocus
                 onChange={(e) =>
-                    setUpdate({ ...update, title: e.target.value })
+                    setDetails({ ...details, title: e.target.value })
                   }
               />
             </Grid>
@@ -89,9 +97,9 @@ export default function BlogForm() {
                 label="Image URL"
                 type="text"
                 id="image"
-                value={update.image}
+                value={details.image}
                 onChange={(e) =>
-                    setUpdate({ ...update, image: e.target.value })
+                    setDetails({ ...details, image: e.target.value })
                   }
               />
             </Grid>
@@ -101,12 +109,12 @@ export default function BlogForm() {
                 required
                 label="Content"
                 multiline
-                value={update.content.slice(0,30)}
+                value={details.content.slice(0,30)}
                 fullWidth
                 rows={15}
                 variant="outlined"
                 onChange={(e) =>
-                    setUpdate({ ...update, content: e.target.value })
+                    setDetails({ ...details, content: e.target.value })
                   }
               />
             </Grid>
@@ -117,9 +125,9 @@ export default function BlogForm() {
               fullWidth
               variant="contained"
               className={classes.submit}
-              onClick={() => updateHandler(update.id)}
+              onClick={detailsHandler}
             >
-              Update
+              details
             </Button>
           </NavLink>
         </form>

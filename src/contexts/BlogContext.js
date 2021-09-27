@@ -42,16 +42,10 @@ function BlogProvider({children}) {
             }
         })
     })
-    const updateHandler = (id) =>{
-      
-        const newUpdate = data.filter ((item) =>{
-            if (item.id === id){
-            return setNewBlog({...NewBlog, item})
-        }})
-        setData([...data, NewBlog])
-      }
+    console.log(details)
+  
     
-    const values = {NewBlog, setNewBlog, data, setData,counter, setCounter, getDetails, details, setDetails, deleteCard, updateBlog, update, setUpdate, updateHandler}
+    const values = {NewBlog, setNewBlog, data, setData,counter, setCounter, getDetails, details, setDetails, deleteCard, updateBlog, update, setUpdate}
 
     return (
         <BlogContext.Provider value = {values}>
