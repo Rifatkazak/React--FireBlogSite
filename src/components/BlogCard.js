@@ -1,4 +1,4 @@
-import React, {useContext, useState,useEffect} from 'react';
+import React, {useContext,useEffect,useState} from 'react';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -36,12 +36,11 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   blogsContainer: {
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(6),
     display:"flex",
-    justifyContent:"flex-start",
+    justifyContent:"center",
     flexWrap: 'wrap'
-    
-    
+
     
   },
   blogTitle: {
@@ -52,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
     width: "300px",
     height: "400px",
     marginRight : "25px",
-    marginBottom : "25px"
+    marginBottom : "25px",
+    marginLeft: theme.spacing(5)
+
     
   },
   media: {
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function BlogCard() {
-  
+
   const [currentDate, setCurrentDate] = useState('');
 
   useEffect(() => {
@@ -81,11 +82,12 @@ function BlogCard() {
     );
   }, []);
 
-  const {data} = useContext(BlogContext)
+
+  const {data,getDetails} = useContext(BlogContext)
 
   const classes = useStyles();
 
-  console.log(data)
+  
   return (
     <div className="App">
       <Typography variant="h4" className={classes.blogTitle}>
@@ -95,7 +97,7 @@ function BlogCard() {
         {data.map((blog) => {
           return (
             <NavLink to="/Details" activeClassName="active" >
-              <Grid key={blog.id} container justify="center" spacing={3}>
+              <Grid key={blog.id} container justify="center" spacing={3} onClick={()=>getDetails(blog.id)}>
                 <Grid item xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
                     <CardActionArea>
@@ -109,7 +111,7 @@ function BlogCard() {
                           {blog.title}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                           {blog.content}
+                           {blog.content.slice(0,30)}
                         </Typography>
                       </CardContent>
                     </CardActionArea>

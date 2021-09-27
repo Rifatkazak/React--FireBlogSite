@@ -14,4 +14,4 @@ function NewBlog() {
     )
 }
 
-export default NewBlog
+export default NewBlog ;
