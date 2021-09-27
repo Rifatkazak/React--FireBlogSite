@@ -54,13 +54,11 @@ export default function BlogForm() {
   const classes = useStyles();
   const {details, setDetails, data, setData} = useContext(BlogContext)
 
-  const detailsHandler = () =>{
-      
-    const newUpdate = data.filter ((item) =>{
-        return setDetails(prevDetails => details)
-    })
-    setData([...data, details])
-  } 
+  const detailsHandler = (id) =>{
+     setData(data.map((item ) => 
+        item.id === id ? {...item, title:details.title , image : details.image, content : details.content  } : item 
+     ))
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -109,7 +107,7 @@ export default function BlogForm() {
                 required
                 label="Content"
                 multiline
-                value={details.content.slice(0,30)}
+                value={details.content}
                 fullWidth
                 rows={15}
                 variant="outlined"
@@ -125,9 +123,9 @@ export default function BlogForm() {
               fullWidth
               variant="contained"
               className={classes.submit}
-              onClick={detailsHandler}
+              onClick={() => detailsHandler(details.id)}
             >
-              details
+              Update
             </Button>
           </NavLink>
         </form>
