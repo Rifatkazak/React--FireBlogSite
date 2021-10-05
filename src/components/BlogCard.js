@@ -13,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {NavLink} from "react-router-dom";
 import {BlogContext} from "../contexts/BlogContext";
+import ReactHtmlParser from 'react-html-parser';
  
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -40,24 +41,25 @@ const useStyles = makeStyles((theme) => ({
     display:"flex",
     justifyContent:"center",
     flexWrap: 'wrap'
-
-    
   },
   blogTitle: {
+    marginTop:"2rem",
     fontWeight: 800,
+    color:"#04237F",
     paddingBottom: theme.spacing(3)
   },
   card: {
     width: "300px",
-    height: "400px",
+    maxHeight: "600px",
     marginRight : "25px",
     marginBottom : "25px",
-    marginLeft: theme.spacing(5)
-
-    
+    marginLeft: theme.spacing(5),
   },
   media: {
     height: 240
+  },
+  itemTitle:{
+    color: "#04237F",
   },
   cardActions: {
     display: "flex",
@@ -96,7 +98,7 @@ function BlogCard() {
       <Container maxWidth="lg" className={classes.blogsContainer}>
         {data.map((blog) => {
           return (
-            <NavLink to="/Details" activeClassName="active" >
+            <NavLink to="/Details" activeClassName="active" style ={{textDecoration:"none"}} >
               <Grid key={blog.id} container justify="center" spacing={3} onClick={()=>getDetails(blog.id)}>
                 <Grid item xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
@@ -107,11 +109,11 @@ function BlogCard() {
                         title="Contemplative Reptile"
                       />
                       <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
+                        <Typography gutterBottom variant="h5" component="h2" className = {classes.itemTitle}>
                           {blog.title}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                           {blog.content.slice(0,30)}
+                           {blog.content.slice(0,30)+"..."}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
@@ -120,7 +122,7 @@ function BlogCard() {
                       <Avatar src="#" />
                         <Box ml={2}>
                           <Typography variant="subtitle2" component="p">
-                            Esat Yasar
+                            Rifat KAZAK
                           </Typography>
                           <Typography variant="subtitle2" color="textSecondary" component="p">
                             {currentDate}

@@ -7,10 +7,13 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import Container from "@mui/material/Container";
-import blogPng from "../assets/blok.png";
+import blogJpg from "../assets/blogimage.jpg";
 import { BlogContext } from "../contexts/BlogContext"
-import { useContext } from "react";
+import { useContext} from "react";
 import { NavLink } from "react-router-dom"
+import { toastSuccessNotify } from "../helpers/toastNotify"
+import ReactHtmlParser from 'react-html-parser';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -20,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   avatar: {
-    padding: theme.spacing(13),
-    backgroundColor: "#046582",
+    padding: theme.spacing(12),
+    backgroundColor: "#04237F",
   },
   blogImg: {
-    width: 200,
+    width: 300,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -32,39 +35,43 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#046582",
+    backgroundColor: "#04237F",
     color: "white",
     fontWeight: "bold",
     "&:hover": {
-      color: "#046582",
+      color: "#fff",
     },
   },
   title: {
     fontSize: 35,
     fontFamily: "Girassol",
-    color: "#046582",
+    color: "#04237F",
   },
 }));
 
-
-
 export default function BlogForm() {
   
-   
   const classes = useStyles();
   const {details, setDetails, data, setData} = useContext(BlogContext)
 
   const detailsHandler = (id) =>{
-     setData(data.map((item ) => 
-        item.id === id ? {...item, title:details.title , image : details.image, content : details.content  } : item 
-     ))
-  }
+    setData(data.map((item ) => 
+       item.id === id ? {
+         ...item, 
+         title:details.title, 
+         image : details.image, 
+         content : details.content  
+        } : item 
+    ))
+    toastSuccessNotify("Updated successfully!");
+ }
+ 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <img src={blogPng} alt="blog" className={classes.blogImg} />
+          <img src={blogJpg} alt="blog" className={classes.blogImg} />
         </Avatar>
         <Typography component="h1" variant="h5" className={classes.title}>
           ── Update Blog ──
@@ -109,7 +116,7 @@ export default function BlogForm() {
                 multiline
                 value={details.content}
                 fullWidth
-                rows={15}
+                rows={9}
                 variant="outlined"
                 onChange={(e) =>
                     setDetails({ ...details, content: e.target.value })
@@ -117,7 +124,7 @@ export default function BlogForm() {
               />
             </Grid>
           </Grid>
-          <NavLink to="/Dashboard" activeClassName="active">
+          <NavLink to="/Dashboard" activeClassName="active" style = {{textDecoration : "none"}}>
             <Button
               type="submit"
               fullWidth

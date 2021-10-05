@@ -1,11 +1,13 @@
 import React from 'react'
 import { createContext, useState } from 'react';
+import { toastSuccessNotify } from "../helpers/toastNotify";
+
 
 export const BlogContext = createContext()
 
 function BlogProvider({children}) {
 
-    const [counter,setCounter] = useState(1)
+    const [counter,setCounter] = useState(3)
     const [NewBlog,setNewBlog] = useState({id:counter, title:"", image :"", content:""});
     const initialData = [{id : 1,
         title:"React Context",
@@ -19,6 +21,7 @@ function BlogProvider({children}) {
     const [data,setData] = useState(initialData)
     const [details,setDetails] = useState({})
     const [update, setUpdate] = useState({})
+    const [valid, setValid] = useState(true);
     
     const getDetails = (id) =>{
         const filtered = data.filter((item) =>{
@@ -33,6 +36,7 @@ function BlogProvider({children}) {
             return item.id !== id
         })
         setData(deleted)
+        toastSuccessNotify("Deleted successfully!");
     } 
 
     const updateBlog = (id => {
@@ -42,11 +46,22 @@ function BlogProvider({children}) {
             }
         })
     })
-    console.log(details)
-  
     
-    const values = {NewBlog, setNewBlog, data, setData,counter, setCounter, getDetails, details, setDetails, deleteCard, updateBlog, update, setUpdate}
 
+    const handleChange = () => {
+        setValid(!valid);
+      };
+    
+    const values = {
+        NewBlog, setNewBlog, 
+        data, setData,
+        counter, setCounter, 
+        getDetails, details, 
+        setDetails, deleteCard, 
+        updateBlog, handleChange,valid
+    }
+
+    console.log(data)
     return (
         <BlogContext.Provider value = {values}>
             {children}

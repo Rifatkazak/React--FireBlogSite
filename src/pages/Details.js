@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 800,
         paddingBottom: theme.spacing(3),
         marginTop: "2rem",
-        textAlign : "center"
+        textAlign : "center",
+        color:"#04237F"
     },
     card: {
         width: "800px",
         height: "600px",
         marginRight : "25px",
         marginBottom : "25px",
-        marginRight: theme.spacing(5),
         marginLeft: theme.spacing(5)
       },
     image:{
@@ -42,13 +42,16 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "space-around"
     },
     btnDelete:{
-        textDecoration:"none"
+        textDecoration:"none",
+        color: "#04237F",
     },
     btnUpdate:{
-        textDecoration:"none"
-
+        textDecoration:"none",
+        color: "#04237F",
+    },
+    detailsTitle:{
+        color: "#04237F",
     }
-    
 
 }));
 
@@ -71,7 +74,7 @@ export default function Details() {
             image= {`${details.image}`}
         />
         <CardContent className={classes.content}>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography gutterBottom variant="h5" component="div" className ={classes.detailsTitle}>
             {details.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">

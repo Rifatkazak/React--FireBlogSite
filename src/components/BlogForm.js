@@ -7,10 +7,14 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import Container from "@mui/material/Container";
-import blogPng from "../assets/blok.png";
+import blogJpg from "../assets/blogimage.jpg";
 import { BlogContext } from "../contexts/BlogContext"
 import { useContext } from "react";
-import { NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom";
+import { toastSuccessNotify } from "../helpers/toastNotify";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ReactHtmlParser from 'react-html-parser';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -20,29 +24,29 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   avatar: {
-    padding: theme.spacing(13),
-    backgroundColor: "#046582",
+    padding: theme.spacing(12),
+    backgroundColor: "#04237F",
   },
   blogImg: {
-    width: 200,
+    width: 300,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#046582",
+    backgroundColor: "#04237F",
     color: "white",
     fontWeight: "bold",
     "&:hover": {
-      color: "#046582",
+      color: "#fff",
     },
   },
   title: {
     fontSize: 35,
     fontFamily: "Girassol",
-    color: "#046582",
+    color: "#04237F",
   },
 }));
 
@@ -53,20 +57,26 @@ export default function BlogForm() {
   const classes = useStyles();
   const {NewBlog, setNewBlog, data, setData,counter,setCounter} = useContext(BlogContext)
   
-
   const newBlogHandler = () =>{
     setCounter(counter+1)
   
     setData([...data, NewBlog.id = counter])
     setData([...data, NewBlog])
+    setNewBlog({})
+    toastSuccessNotify("Blog added successfully!");
   }
-  
+  const handleOnChangeContent = (e,editor) => {
+    const contentEditor = editor.getData()
+    const lastcontent = ReactHtmlParser(contentEditor)
+    setNewBlog({...NewBlog, content: lastcontent})
+    console.log(lastcontent)
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <img src={blogPng} alt="blog" className={classes.blogImg} />
+          <img src={blogJpg} alt="blog" className={classes.blogImg} />
         </Avatar>
         <Typography component="h1" variant="h5" className={classes.title}>
           ── New Blog ──
@@ -104,23 +114,27 @@ export default function BlogForm() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+                <CKEditor
+                editor = {ClassicEditor}
+                onChange= {handleOnChangeContent}
+                />
+              {/* <TextField
                 id="outlined-multiline-static"
                 required
                 label="Content"
                 multiline
                 value={NewBlog.content}
                 fullWidth
-                rows={15}
+                rows={9}
                 onChange={(e) =>
-                  setNewBlog({ ...NewBlog, content: e.target.value })
+                  setNewBlog({ ...NewBlog, content: e.target.value})
                 }
                 // defaultValue="Default Value"
                 variant="outlined"
-              />
+              /> */}
             </Grid>
           </Grid>
-          <NavLink to="/Dashboard" activeClassName="active">
+          <NavLink to="/Dashboard" activeClassName="active" style = {{textDecoration : "none"}}>
             <Button
               type="submit"
               fullWidth

@@ -11,38 +11,31 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useHistory} from 'react-router-dom';
 import { useAuth } from "../contexts/AuthContext";
-import {useState, useContext} from 'react';
+import {useState} from 'react';
 import {NavLink} from "react-router-dom";
-import {BlogContext} from '../contexts/BlogContext';
-import { toastSuccessNotify,toastErrorNotify } from "../helpers/toastNotify";
 
 const theme = createTheme();
 
-export default function Login() {
+export default function ForgotPassword() {
 
-  const {handleChange} = useContext(BlogContext)
   const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const { login } = useAuth()
+  const { resetPassword } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const history = useHistory()
+  const [message, setMessage] = useState("")
 
   async function handleSubmit(e) {
     e.preventDefault()
 
     try {
-      setError("")
-      setLoading(true)
-      await login(email, password)
-      history.push("/Dashboard")
-      toastSuccessNotify("Logged in successfully!");
+        setMessage("")
+        setError("")
+        setLoading(true)
+         await resetPassword(email)
+        setMessage("Check your inbox for further instructions ")
     } catch {
-      /* setError("Failed to log in") */
-      
-      toastErrorNotify("Failed to log in");
+        setError("Failed to reset password")
     }
 
     setLoading(false)
@@ -64,7 +57,7 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Log in
+            Password Reset
           </Typography>
           {error && <Alert severity="error">{error}</Alert>}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -78,17 +71,7 @@ export default function Login() {
                 autoComplete="email"
                 autoFocus
                 onChange= {(e) => setEmail(e.target.value) }
-              />
-              <TextField
-                margin="normal"
                 required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange= {(e) => setPassword(e.target.value) }
               />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -100,13 +83,12 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               disabled={loading} 
-              onClick = {handleChange}
             >
-              Log In
+              Reset Password
             </Button>
            </Box>
            <div className="w-100 text-center mt-3">
-            <NavLink to="/ForgotPassword">Forgot Password?</NavLink>
+            <NavLink to="/Login">Log In</NavLink>
           </div>
         </Box>
         <div className="w-100 text-center mt-2">
